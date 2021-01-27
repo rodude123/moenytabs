@@ -1,10 +1,13 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MoneyTabs",
+  "theme_color": "#4CAF50",
+  "name": "MoneyTabs",
+  "description": "Keep a track of who owes who.",
+  "dir": "auto",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "64x64",
       "type": "image/x-icon"
     },
     {
@@ -18,8 +21,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
   "background_color": "#ffffff"
 }
