@@ -6,11 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import {List, ListItem, ListItemIcon, ListItemText, SwipeableDrawer} from "@material-ui/core";
+import GroupIcon from "@material-ui/icons/Group";
+import PersonIcon from "@material-ui/icons/Person"
+import SettingsIcon from "@material-ui/icons/Settings"
 
 const useStyles = theme => ({
 	root: {
@@ -31,26 +30,10 @@ class MenuBar extends Component
 {
 	state = {
 		auth: true,
-		anchorEl: null,
 		open: false
 	}
 	
 	classes = this.props.classes;
-	
-	handleChange = event =>
-	{
-		this.setState({auth : event.target.checked})
-	}
-	
-	handleMenu = event =>
-	{
-		this.setState({anchorEl: event.currentTarget})
-	};
-	
-	handleClose = () =>
-	{
-		this.setState({anchorEl: null})
-	};
 	
 	openSideMenu = (event) =>
 	{
@@ -74,7 +57,6 @@ class MenuBar extends Component
 	
 	render()
 	{
-		const open = Boolean(this.state.anchorEl);
 		return (
 			<div className={this.classes.root}>
 				<SwipeableDrawer anchor="left" open={this.state.open} onClose={this.closeSideMenu} onOpen={this.openSideMenu}>
@@ -84,14 +66,24 @@ class MenuBar extends Component
 						onClick={this.closeSideMenu}
 						onKeyDown={this.closeSideMenu}>
 						<List>
-							{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-								<ListItem button key={text}>
-									<ListItemIcon>
-										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-									</ListItemIcon>
-									<ListItemText primary={text} />
-								</ListItem>
-							))}
+							<ListItem button key="Tabs" onClick={console.log("Tabs page")}>
+								<ListItemIcon>
+									<PersonIcon/>
+								</ListItemIcon>
+								<ListItemText primary="Tabs"/>
+							</ListItem>
+							<ListItem button key="Group Tabs">
+								<ListItemIcon>
+									<GroupIcon/>
+								</ListItemIcon>
+								<ListItemText primary="Group Tabs"/>
+							</ListItem>
+							<ListItem button key="Settings">
+								<ListItemIcon>
+									<SettingsIcon/>
+								</ListItemIcon>
+								<ListItemText primary="Settings"/>
+							</ListItem>
 						</List>
 					</div>
 				</SwipeableDrawer>
@@ -109,27 +101,10 @@ class MenuBar extends Component
 									aria-label="account of current user"
 									aria-controls="menu-appbar"
 									aria-haspopup="true"
-									onClick={this.handleMenu}
+									onClick={console.log("Go to profile")}
 									color="inherit">
 									<AccountCircle/>
 								</IconButton>
-								<Menu
-									id="menu-appbar"
-									anchorEl={this.state.anchorEl}
-									anchorOrigin={{
-										vertical: 'top',
-										horizontal: 'right',
-									}}
-									keepMounted
-									transformOrigin={{
-										vertical: 'top',
-										horizontal: 'right',
-									}}
-									open={open}
-									onClose={this.handleClose}>
-									<MenuItem onClick={this.handleClose}>Profile</MenuItem>
-									<MenuItem onClick={this.handleClose}>My account</MenuItem>
-								</Menu>
 							</div>
 						)}
 					</Toolbar>

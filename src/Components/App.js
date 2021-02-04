@@ -4,13 +4,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import yellow from '@material-ui/core/colors/lime';
 import green from '@material-ui/core/colors/green';
 import grey from "@material-ui/core/colors/grey";
-import MenuBar from "./MenuBar";
+import LoginSignup from "../Pages/loginSignup";
 
 class App extends React.Component
 {
 	render()
 	{
-		const isDarkMode = false
+		const isDarkMode = true
 		const theme = createMuiTheme({
 			palette: {
 				type: isDarkMode ? 'dark' : 'light',
@@ -26,7 +26,7 @@ class App extends React.Component
 		});
 		return (
 			<ThemeProvider theme={theme}>
-				<MenuBar/>
+				<LoginSignup/>
 			</ThemeProvider>
 		)
 	}
