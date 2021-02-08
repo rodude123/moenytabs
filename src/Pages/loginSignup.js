@@ -17,7 +17,7 @@ class LoginSignup extends Component
 	
 	defaultStyle = {
 		display: "block",
-		transition: "all 2000ms cubic-bezier(0, 0, 0.2, 1) 0ms",
+		transition: "all 1500ms cubic-bezier(0, 0, 0.2, 1) 0ms",
 	}
 	
 	slideL = {
