@@ -28,6 +28,7 @@ const useStyles = theme => ({
 
 /**
  *  Signup class
+ *
  *  Signup component used in the loginSignup.js to show signup form.
  */
 class Signup extends React.Component
@@ -53,10 +54,11 @@ class Signup extends React.Component
 	
 	/**
 	 * handleForm function
-	 * update the formData object in the state with respective values from the form
+	 *
+	 * Update the formData object in the state with respective values from the form
 	 * @param {Event} e grab elements details
 	 */
-	handleForm = (e) =>
+	handleForm = e =>
 	{
 		this.setState(prevState =>
 		({
@@ -69,21 +71,20 @@ class Signup extends React.Component
 	
 	/**
 	 * handleScore function
-	 * update the score in state based on the password strength bar
-	 * @param {number} score
+	 *
+	 * Update the score in state based on the password strength bar
+	 * @param {number} score password score 1-4 depending on how strong it is
 	 */
-	handleScore = (score) =>
-	{
-		this.setState({passScore: score})
-	}
+	handleScore = score => this.setState({passScore: score})
 	
 	/**
 	 * checkUsername function
-	 * send a request to server to check if username exists. If username exists update message in state to show
+	 *
+	 * Send a request to server to check if username exists. If username exists update message in state to show
 	 * appropriate message
 	 * @param {Event} e grab elements details
 	 */
-	checkUsername = (e) =>
+	checkUsername = e =>
 	{
 		let formData = new FormData()
 		formData.append("username", this.state.formData.username)
@@ -105,7 +106,8 @@ class Signup extends React.Component
 	
 	/**
 	 * signupUser function
-	 * sends the form data to the server to signup user once all checks have been passed
+	 *
+	 * Sends the form data to the server to signup user once all checks have been passed
 	 * @param {Event} e grab elements details
 	 */
 	signupUser = e =>
@@ -115,7 +117,7 @@ class Signup extends React.Component
 	}
 	
 	/**
-	 * render method to render the jsx
+	 * render function to render the jsx
 	 * @returns {JSX.Element}
 	 */
 	render()

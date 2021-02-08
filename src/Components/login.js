@@ -12,6 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+/**
+ * Styling for page
+ */
 const useStyles = theme => ({
 	paper: {
 		marginTop: theme.spacing(8),
@@ -32,9 +35,18 @@ const useStyles = theme => ({
 	},
 });
 
+/**
+ * Login class
+ * Login component used in the loginSignup.js to show signup form.
+ */
 class Login extends React.Component
 {
 	classes = this.props.classes;
+	
+	/**
+	 * render function to render the jsx
+	 * @returns {JSX.Element}
+	 */
 	render()
 	{
 		return (

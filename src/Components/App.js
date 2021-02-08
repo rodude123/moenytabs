@@ -3,12 +3,21 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { grey, green, lime } from "@material-ui/core/colors"
 import LoginSignup from "../Pages/loginSignup";
 
+/**
+ * App class
+ *
+ * Base file for routing all the pages and use of theme
+ */
 class App extends React.Component
 {
 	state = {
 		isDarkMode: true
 	}
 	
+	/**
+	 * Theme for whole app
+	 * @type {object} theme object
+	 */
 	theme = createMuiTheme({
 		palette: {
 			type: this.state.isDarkMode ? 'dark' : 'light',
@@ -22,6 +31,10 @@ class App extends React.Component
 			},
 		},
 	});
+	/**
+	 * render method to render the jsx
+	 * @returns {JSX.Element}
+	 */
 	render()
 	{
 		return (

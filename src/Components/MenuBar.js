@@ -11,6 +11,9 @@ import GroupIcon from "@material-ui/icons/Group";
 import PersonIcon from "@material-ui/icons/Person"
 import SettingsIcon from "@material-ui/icons/Settings"
 
+/**
+ * Styling for page
+ */
 const useStyles = theme => ({
 	root: {
 		flexGrow: 1,
@@ -26,6 +29,11 @@ const useStyles = theme => ({
 	}
 });
 
+/**
+ * MenuBar class
+ *
+ * For displaying and handling the menubar and sidebar
+ */
 class MenuBar extends Component
 {
 	state = {
@@ -35,9 +43,15 @@ class MenuBar extends Component
 	
 	classes = this.props.classes;
 	
-	openSideMenu = (event) =>
+	/**
+	 * openSideMenu function
+	 *
+	 * Handles keyboard use on side menu and set's open state to true meaning side menu is open
+	 * @param {Event} e grab element details
+	 */
+	openSideMenu = e =>
 	{
-		if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
+		if (e && e.type === 'keydown' && (e.key === 'Tab' || e.key === 'Shift'))
 		{
 			return;
 		}
@@ -45,9 +59,15 @@ class MenuBar extends Component
 		this.setState({open: true});
 	};
 	
-	closeSideMenu = (event) =>
+	/**
+	 * closeSideMenu function
+	 *
+	 * Handles keyboard use on side menu and set's open state to false meaning side menu is closed
+	 * @param e
+	 */
+	closeSideMenu = e =>
 	{
-		if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
+		if (e && e.type === 'keydown' && (e.key === 'Tab' || e.key === 'Shift'))
 		{
 			return;
 		}
@@ -55,6 +75,10 @@ class MenuBar extends Component
 		this.setState({open: false});
 	};
 	
+	/**
+	 * render function to render the jsx
+	 * @returns {JSX.Element}
+	 */
 	render()
 	{
 		return (
