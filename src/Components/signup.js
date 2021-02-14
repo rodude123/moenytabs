@@ -1,6 +1,18 @@
 import React from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {Avatar, Button, Container, CssBaseline, Grid, Link, TextField, Typography, withStyles} from "@material-ui/core";
+import {
+	Avatar,
+	Button,
+	Chip,
+	Container,
+	CssBaseline,
+	Fade,
+	Grid,
+	Link,
+	TextField,
+	Typography,
+	withStyles
+} from "@material-ui/core";
 import PasswordStrengthBar from "react-password-strength-bar";
 
 /**
@@ -24,6 +36,9 @@ const useStyles = theme => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	chip: {
+		backgroundColor: theme.palette.type === 'dark' ? theme.palette.error.dark : theme.palette.error.light,
+	}
 });
 
 /**
@@ -49,7 +64,8 @@ class Signup extends React.Component
 		passMessage: "",
 		rePassMessage: "",
 		passScore: 0,
-		
+		errorMessage: "Something went wrong try again later",
+		fadein: true,
 	}
 	
 	/**
@@ -86,8 +102,8 @@ class Signup extends React.Component
 	 */
 	checkUsername = e =>
 	{
-		let formData = new FormData()
-		formData.append("username", this.state.formData.username)
+		let formData = new FormData();
+		formData.append("username", this.state.formData.username);
 		fetch("/checkUser", {
 			method: "POST",
 			body: formData
@@ -95,13 +111,46 @@ class Signup extends React.Component
 		{
 			res.text().then(text =>
 			{
-				if (text !== "ok" )
+				if (text !== "ok")
 				{
-					this.setState({userMessage: text})
+					this.setState({userMessage: text});
+				}
+				else
+				{
+					this.handleForm(e);
 				}
 			})
 		})
-		this.handleForm(e)
+	}
+	
+	/**
+	 * checkEmail function
+	 *
+	 * Send a request to server to check if email exists. If email exists update message in state to show
+	 * appropriate message
+	 * @param {Event} e grab elements details
+	 */
+	checkEmail = e =>
+	{
+		let formData = new FormData();
+		formData.append("email", this.state.formData.email);
+		fetch("/checkEmail", {
+			method: "POST",
+			body: formData
+		}).then(res =>
+		{
+			res.text().then(text =>
+			{
+				if (text !== "ok")
+				{
+					this.setState({emailMessage: text});
+				}
+				else
+				{
+					this.handleForm(e);
+				}
+			})
+		})
 	}
 	
 	/**
@@ -113,7 +162,49 @@ class Signup extends React.Component
 	signupUser = e =>
 	{
 		e.preventDefault();
-		console.log(this.state)
+		let formData = new FormData();
+		for (let key in this.state.formData)
+		{
+			formData.append(key, this.state.formData[key]);
+		}
+		
+		fetch("/singupUser", {
+			method: "POST",
+			body: formData
+		}).then(res =>
+		{
+			res.text().then(text =>
+			{
+				if (text === "ok")
+				{
+					console.log("form submitted")
+				}
+				else
+				{
+					this.setState(prevState => ({	...prevState, fadein: !prevState.fadein}))
+				}
+			})
+		})
+	
+	}
+	/**
+	 * handleDelete function
+	 * <br>
+	 * Sets fade in to the opposite meaning it fades out
+	 */
+	handleDelete = () =>
+	{
+		this.setState(prevState => ({	...prevState, fadein: !prevState.fadein}))
+	}
+	
+	/**
+	 * handleFade function
+	 * <br>
+	 * removes the errorMessage i.e. sets it to an empty string
+	 */
+	handleFade = () =>
+	{
+		this.setState(prevState => ({	...prevState, errorMessage: ""}))
 	}
 	
 	/**
@@ -122,8 +213,8 @@ class Signup extends React.Component
 	 */
 	render()
 	{
-		const {userMessage, emailMessage, passMessage, rePassMessage} = this.state;
-		const {password} = this.state.formData;
+		const {userMessage, emailMessage, passMessage, rePassMessage, formData, errorMessage, fadein} = this.state;
+		const {password} = formData;
 		return (
 			<Container component="main" maxWidth="xs">
 				<CssBaseline/>
@@ -134,42 +225,62 @@ class Signup extends React.Component
 					<Typography component="h1" variant="h5">
 						Sign up
 					</Typography>
-					<form className={this.classes.form} action="/signup.html" onSubmit={this.signupUser}>
+					<form className={this.classes.form} action="/signup.html" onSubmit={this.signupUser} method="POST">
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>
 								<TextField autoComplete="fname" name="firstName" variant="outlined"
-								           required fullWidth id="firstName" label="First Name" autoFocus onChange={this.handleForm}/>
+								           required fullWidth id="firstName" label="First Name" autoFocus
+								           onChange={this.handleForm}/>
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<TextField variant="outlined" required fullWidth id="lastName"
-								           label="Last Name" name="lastName" autoComplete="lname" onChange={this.handleForm}/>
+								           label="Last Name" name="lastName" autoComplete="lname"
+								           onChange={this.handleForm}/>
 							</Grid>
 							<Grid item xs={12}>
-								<TextField error={userMessage !== ""} helperText={userMessage} variant="outlined" required fullWidth name="username" label="Username"
-								           id="username" autoComplete="username" onChange={this.handleForm}/>
+								<TextField error={userMessage !== ""} helperText={userMessage} variant="outlined"
+								           required fullWidth name="username" label="Username"
+								           id="username" autoComplete="username" onChange={this.checkUsername}/>
 							</Grid>
 							<Grid item xs={12}>
-								<TextField error={emailMessage !== ""} helperText={emailMessage} variant="outlined" required fullWidth id="email"
-								           label="Email Address" name="email" autoComplete="email" onChange={this.handleForm}/>
+								<TextField error={emailMessage !== ""} helperText={emailMessage} variant="outlined"
+								           required fullWidth id="email"
+								           label="Email Address" name="email" autoComplete="email"
+								           onChange={this.checkEmail}/>
 							</Grid>
 							<Grid item xs={12}>
-								<TextField error={passMessage !== ""} helperText={passMessage} variant="outlined" required fullWidth name="password" label="Password"
-								           type="password" id="password" autoComplete="new-password" inputProps={{minlength: 8}} onChange={this.handleForm}/>
-								<PasswordStrengthBar password={password} barColors={['#ddd', '#ef4836', '#f6b44d', '#bdc225', '#4caf50']} minLength={8} onChangeScore={this.handleScore}/>
+								<TextField error={passMessage !== ""} helperText={passMessage} variant="outlined"
+								           required fullWidth name="password" label="Password"
+								           type="password" id="password" autoComplete="new-password"
+								           inputProps={{minLength: 8}} onChange={this.handleForm}/>
+								<PasswordStrengthBar password={password}
+								                     barColors={['#ddd', '#ef4836', '#f6b44d', '#bdc225', '#4caf50']}
+								                     minLength={8} onChangeScore={this.handleScore}/>
 							</Grid>
 							<Grid item xs={12}>
-								<TextField error={rePassMessage !== ""} helperText={rePassMessage} variant="outlined" required fullWidth name="rePass" label="Re-type Password"
-								           type="password" id="rePass" autoComplete="new-password" inputProps={{minlength: 8}} onChange={this.handleForm}/>
+								<TextField error={rePassMessage !== ""} helperText={rePassMessage} variant="outlined"
+								           required fullWidth name="rePass" label="Re-type Password"
+								           type="password" id="rePass" autoComplete="new-password"
+								           inputProps={{minLength: 8}} onChange={this.handleForm}/>
 							</Grid>
 						</Grid>
-						<Button type="submit" fullWidth variant="contained" color="primary" disabled={userMessage !== "" || emailMessage !== "" || passMessage !== "" || rePassMessage !== ""}
+						<Button type="submit" fullWidth variant="contained" color="primary"
+						        disabled={userMessage !== "" || emailMessage !== "" || passMessage !== "" || rePassMessage !== ""}
 						        className={this.classes.submit}>
 							Sign Up
 						</Button>
+						<Grid container justify="center">
+							<Fade in={fadein} mountOnEnter={true} unmountOnExit={true} onExited={this.handleFade}>
+								<Chip className={this.classes.chip} label={errorMessage} onDelete={this.handleDelete} />
+							</Fade>
+						</Grid>
 						<Grid container justify="flex-end">
 							<Grid item>
 								<Link href="#" variant="body2"
-								      onClick={() => {this.props.goToSignup(!this.props.signup)}}>
+								      onClick={() =>
+								      {
+									      this.props.goToSignup(!this.props.signup)
+								      }}>
 									Already have an account? Sign in
 								</Link>
 							</Grid>

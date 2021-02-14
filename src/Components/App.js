@@ -21,10 +21,7 @@ class App extends React.Component
 	theme = createMuiTheme({
 		palette: {
 			type: this.state.isDarkMode ? 'dark' : 'light',
-			primary: {
-				main: green[500],
-				contrastText: grey[50]
-			},
+			primary: green,
 			secondary: {
 				main: lime[700],
 				contrastText: grey[800]
