@@ -10,9 +10,9 @@ $conn = dbConn();
 
 if ($conn->query($sql)->num_rows > 0)
 {
-    echo "not ok";
+    echo "Email already exists";
 }
 else
 {
-    echo "not ok";
+    echo "ok";
 }
