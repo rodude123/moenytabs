@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -39,7 +39,7 @@ const useStyles = theme => ({
  * Login class
  * Login component used in the loginSignup.js to show signup form.
  */
-class Login extends React.Component
+class Login extends Component
 {
 	classes = this.props.classes;
 	

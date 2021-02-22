@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
 	Avatar,
@@ -46,7 +46,7 @@ const useStyles = theme => ({
  *
  *  Signup component used in the loginSignup.js to show signup form.
  */
-class Signup extends React.Component
+class Signup extends Component
 {
 	classes = this.props.classes;
 	
@@ -64,6 +64,7 @@ class Signup extends React.Component
 		passMessage: "",
 		rePassMessage: "",
 		passScore: 0,
+		passMatch: false,
 		errorMessage: "Something went wrong try again later",
 		fadein: true,
 	}
@@ -91,7 +92,22 @@ class Signup extends React.Component
 	 * Update the score in state based on the password strength bar
 	 * @param {number} score password score 1-4 depending on how strong it is
 	 */
-	handleScore = score => this.setState({passScore: score})
+	handleScore = score =>
+	{
+		if (this.state.formData.password !== "")
+		{
+			this.setState({passScore: score})
+			if (score < 3)
+			{
+				this.setState({passMessage: "Password not strong enough, use a stronger password"});
+			}
+			else
+			{
+				this.setState({passMessage: ""})
+				
+			}
+		}
+	}
 	
 	/**
 	 * checkUsername function
@@ -104,7 +120,7 @@ class Signup extends React.Component
 	{
 		let formData = new FormData();
 		formData.append("username", this.state.formData.username);
-		fetch("/checkUser", {
+		fetch("/checkUser/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
@@ -134,7 +150,7 @@ class Signup extends React.Component
 	{
 		let formData = new FormData();
 		formData.append("email", this.state.formData.email);
-		fetch("/checkEmail", {
+		fetch("/checkEmail/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
@@ -154,39 +170,54 @@ class Signup extends React.Component
 	}
 	
 	/**
-	 * signupUser function
+	 * handlePasswd function
 	 *
-	 * Sends the form data to the server to signup user once all checks have been passed
+	 * Call handleForm method to update state of password then reset passMessage
+	 * state to enable signup button to be clickable again.
 	 * @param {Event} e grab elements details
 	 */
-	signupUser = e =>
+	handlePasswd = e =>
 	{
-		e.preventDefault();
-		let formData = new FormData();
-		for (let key in this.state.formData)
-		{
-			formData.append(key, this.state.formData[key]);
-		}
-		
-		fetch("/singupUser", {
-			method: "POST",
-			body: formData
-		}).then(res =>
-		{
-			res.text().then(text =>
-			{
-				if (text === "ok")
-				{
-					console.log("form submitted")
-				}
-				else
-				{
-					this.setState(prevState => ({	...prevState, fadein: !prevState.fadein}))
-				}
-			})
-		})
-	
+		this.handleForm(e)
+		this.setState({passMessage: ""})
 	}
+	
+	/**
+	 * checkPasswd function
+	 * <br>
+	 * checks to see if passwordScore is less than 3 i.e. if password is strong enough
+	 */
+	checkPasswd = () =>
+	{
+		if (this.state.passScore < 3)
+		{
+			this.setState({passMessage: "Password not strong enough, use a stronger password"});
+		}
+		else
+		{
+			this.setState({passMessage: ""})
+		}
+	}
+	
+	/**
+	 * handleRePasswd function
+	 *
+	 * Checks to see if passwords match if not set error message
+	 * @param {Event} e grab elements details
+	 */
+	handleRePasswd = e =>
+	{
+		this.handleForm(e)
+		if (this.state.formData.password !== e.target.value)
+		{
+			this.setState({rePassMessage: "Passwords don't match", passMatch: false});
+		}
+		else
+		{
+			this.setState({rePassMessage: "", passMatch: true})
+		}
+	}
+	
 	/**
 	 * handleDelete function
 	 * <br>
@@ -208,12 +239,50 @@ class Signup extends React.Component
 	}
 	
 	/**
+	 * signupUser function
+	 *
+	 * Sends the form data to the server to signup user once all checks have been passed
+	 * @param {Event} e grab elements details
+	 */
+	signupUser = e =>
+	{
+		e.preventDefault();
+		// this.checkPasswd()
+		let formData = new FormData();
+			for (let key in this.state.formData)
+			{
+				formData.append(key, this.state.formData[key]);
+			}
+
+			fetch("/singup/", {
+				method: "POST",
+				body: formData
+			}).then(res =>
+			{
+				res.text().then(text =>
+				{
+					if (text === "ok")
+					{
+						console.log("User signed up")
+					}
+					else
+					{
+						// this.setState(prevState => ({	...prevState, fadein: !prevState.fadein}))
+						console.log(text)
+					}
+				})
+			})
+		console.log("yep form filled correctly")
+	}
+	
+	
+	/**
 	 * render function to render the jsx
 	 * @returns {JSX.Element}
 	 */
 	render()
 	{
-		const {userMessage, emailMessage, passMessage, rePassMessage, formData, errorMessage, fadein} = this.state;
+		const {userMessage, emailMessage, passMessage, rePassMessage, formData, errorMessage, fadein, passMatch, passScore} = this.state;
 		const {password} = formData;
 		return (
 			<Container component="main" maxWidth="xs">
@@ -230,21 +299,21 @@ class Signup extends React.Component
 							<Grid item xs={12} sm={6}>
 								<TextField autoComplete="fname" name="firstName" variant="outlined"
 								           required fullWidth id="firstName" label="First Name" autoFocus
-								           onChange={this.handleForm}/>
+								           onChange={this.handleForm} inputProps={{maxLength: 100}}/>
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<TextField variant="outlined" required fullWidth id="lastName"
 								           label="Last Name" name="lastName" autoComplete="lname"
-								           onChange={this.handleForm}/>
+								           onChange={this.handleForm} inputProps={{maxLength: 100}}/>
 							</Grid>
 							<Grid item xs={12}>
 								<TextField error={userMessage !== ""} helperText={userMessage} variant="outlined"
 								           required fullWidth name="username" label="Username"
-								           id="username" autoComplete="username" onChange={this.checkUsername}/>
+								           id="username" autoComplete="username" onChange={this.checkUsername} inputProps={{maxLength: 100}}/>
 							</Grid>
 							<Grid item xs={12}>
 								<TextField error={emailMessage !== ""} helperText={emailMessage} variant="outlined"
-								           required fullWidth id="email"
+								           required fullWidth id="email" type="email"
 								           label="Email Address" name="email" autoComplete="email"
 								           onChange={this.checkEmail}/>
 							</Grid>
@@ -252,7 +321,7 @@ class Signup extends React.Component
 								<TextField error={passMessage !== ""} helperText={passMessage} variant="outlined"
 								           required fullWidth name="password" label="Password"
 								           type="password" id="password" autoComplete="new-password"
-								           inputProps={{minLength: 8}} onChange={this.handleForm}/>
+								           inputProps={{minLength: 8}} onChange={this.handlePasswd}/>
 								<PasswordStrengthBar password={password}
 								                     barColors={['#ddd', '#ef4836', '#f6b44d', '#bdc225', '#4caf50']}
 								                     minLength={8} onChangeScore={this.handleScore}/>
@@ -261,11 +330,11 @@ class Signup extends React.Component
 								<TextField error={rePassMessage !== ""} helperText={rePassMessage} variant="outlined"
 								           required fullWidth name="rePass" label="Re-type Password"
 								           type="password" id="rePass" autoComplete="new-password"
-								           inputProps={{minLength: 8}} onChange={this.handleForm}/>
+								           inputProps={{minLength: 8}} onChange={this.handleRePasswd}/>
 							</Grid>
 						</Grid>
 						<Button type="submit" fullWidth variant="contained" color="primary"
-						        disabled={userMessage !== "" || emailMessage !== "" || passMessage !== "" || rePassMessage !== ""}
+						        disabled={userMessage !== "" || emailMessage !== "" || passMessage !== "" || rePassMessage !== "" || passMatch === false || passScore < 3}
 						        className={this.classes.submit}>
 							Sign Up
 						</Button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { grey, green, lime } from "@material-ui/core/colors"
 import LoginSignup from "../Pages/loginSignup";
@@ -8,7 +8,7 @@ import LoginSignup from "../Pages/loginSignup";
  *
  * Base file for routing all the pages and use of theme
  */
-class App extends React.Component
+class App extends Component
 {
 	state = {
 		isDarkMode: true
