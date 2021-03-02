@@ -66,7 +66,7 @@ class Signup extends Component
 		passScore: 0,
 		passMatch: false,
 		errorMessage: "Something went wrong try again later",
-		fadein: true,
+		fadein: false,
 	}
 	
 	/**
@@ -225,7 +225,7 @@ class Signup extends Component
 	 */
 	handleDelete = () =>
 	{
-		this.setState(prevState => ({	...prevState, fadein: !prevState.fadein}))
+		this.setState(prevState => ({	...prevState, fadein: false}))
 	}
 	
 	/**
@@ -249,29 +249,29 @@ class Signup extends Component
 		e.preventDefault();
 		// this.checkPasswd()
 		let formData = new FormData();
-			for (let key in this.state.formData)
+		for (let key in this.state.formData)
+		{
+			formData.append(key, this.state.formData[key]);
+		}
+		fetch("/singup/", {
+			method: "POST",
+			body: formData
+		}).then(res =>
+		{
+			res.text().then(text =>
 			{
-				formData.append(key, this.state.formData[key]);
-			}
-
-			fetch("/singup/", {
-				method: "POST",
-				body: formData
-			}).then(res =>
-			{
-				res.text().then(text =>
+				if (text === "ok")
 				{
-					if (text === "ok")
-					{
-						console.log("User signed up")
-					}
-					else
-					{
-						// this.setState(prevState => ({	...prevState, fadein: !prevState.fadein}))
-						console.log(text)
-					}
-				})
+					console.log("User signed up")
+				}
+				else
+				{
+					this.setState(prevState => ({	...prevState, errorMessage: "Something went wrong please try again later."}))
+					this.setState(prevState => ({	...prevState, fadein: true}))
+					// console.log(text)
+				}
 			})
+		})
 		console.log("yep form filled correctly")
 	}
 	
