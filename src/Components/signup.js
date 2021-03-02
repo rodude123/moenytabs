@@ -255,7 +255,7 @@ class Signup extends Component
 		{
 			formData.append(key, this.state.formData[key]);
 		}
-		fetch("/singup/", {
+		fetch("/signup/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
