@@ -119,8 +119,9 @@ class Signup extends Component
 	checkUsername = e =>
 	{
 		let formData = new FormData();
-		formData.append("username", this.state.formData.username);
-		fetch("/checkUser/", {
+		formData.append("userEmail", this.state.formData.username);
+		formData.append("type", "password");
+		fetch("/checkUserEmail/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
@@ -149,8 +150,9 @@ class Signup extends Component
 	checkEmail = e =>
 	{
 		let formData = new FormData();
-		formData.append("email", this.state.formData.email);
-		fetch("/checkEmail/", {
+		formData.append("userEmail", this.state.formData.email);
+		formData.append("type", "email");
+		fetch("/checkUserEmail/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
@@ -266,13 +268,11 @@ class Signup extends Component
 				}
 				else
 				{
-					this.setState(prevState => ({	...prevState, errorMessage: "Something went wrong please try again later."}))
+					this.setState(prevState => ({	...prevState, errorMessage: text}))
 					this.setState(prevState => ({	...prevState, fadein: true}))
-					// console.log(text)
 				}
 			})
 		})
-		console.log("yep form filled correctly")
 	}
 	
 	
