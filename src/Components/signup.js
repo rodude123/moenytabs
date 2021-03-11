@@ -119,8 +119,8 @@ class Signup extends Component
 	checkUsername = e =>
 	{
 		let formData = new FormData();
-		formData.append("userEmail", this.state.formData.username);
-		formData.append("type", "password");
+		formData.append("userEmail", e.target.value);
+		formData.append("type", "username");
 		fetch("/checkUserEmail/", {
 			method: "POST",
 			body: formData
@@ -150,7 +150,7 @@ class Signup extends Component
 	checkEmail = e =>
 	{
 		let formData = new FormData();
-		formData.append("userEmail", this.state.formData.email);
+		formData.append("userEmail", e.target.value);
 		formData.append("type", "email");
 		fetch("/checkUserEmail/", {
 			method: "POST",

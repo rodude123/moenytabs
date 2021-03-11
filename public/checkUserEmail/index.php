@@ -17,7 +17,7 @@ $type = $_POST["type"];
  */
 function checkUserEmail(string $userEmail, mysqli $conn, string $type): string|bool
 {
-    $sql = "SELECT firstName FROM MoneyTabs.users WHERE email=$userEmail OR username=$userEmail"; // sql query to run
+    $sql = "SELECT firstName FROM MoneyTabs.users WHERE email='$userEmail' OR username='$userEmail'"; // sql query to run
 
     if ($conn->query($sql)->num_rows > 0)
     {

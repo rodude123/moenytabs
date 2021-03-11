@@ -14,7 +14,7 @@ $password = password_hash(mysqli_escape_string($conn, $_POST["password"]), PASSW
 
 $userCode = generateUserCode(); // generates user code and stores in a variable
 
-$sql = "INSERT INTO MoneyTabs.users (firstName, lastName, username, email, password, verified, userCode) VALUES(, $firstName, $lastName, $email, $password, 0, $userCode)"; // sql query to run
+$sql = "INSERT INTO MoneyTabs.users (firstName, lastName, username, email, password, verified, userCode) VALUES('$firstName', '$lastName', '$username', '$email', '$password', 0, '$userCode')"; // sql query to run
 
 if ($conn->query($sql) === TRUE)
 {

@@ -11,7 +11,7 @@ function generateUserCode(): string
     $randString = "";
     for ($i = 0; $i < rand(10, 20); $i++)
     {
-        $randString = $characters[rand(0, strlen($characters))];
+        $randString .= $characters[rand(0, strlen($characters))];
     }
     return $randString;
 }

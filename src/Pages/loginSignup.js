@@ -79,7 +79,7 @@ class LoginSignup extends Component
 		const {signup} = this.state;
 		return (
 			<Box display="flex" justifyContent="center">
-				<Transition in={signup}>
+				<Transition in={signup} timeout={1500}>
 					{state =>
 						(
 							<div style={{...this.defaultStyle, ...this.slideL[state]}}>
@@ -88,7 +88,7 @@ class LoginSignup extends Component
 						)
 					}
 				</Transition>
-				<Transition in={!signup}>
+				<Transition in={!signup} timeout={1500}>
 					{state =>
 						(
 							<div style={{...this.defaultStyle, ...this.slideR[state]}}>
