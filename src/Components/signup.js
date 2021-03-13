@@ -134,6 +134,7 @@ class Signup extends Component
 				}
 				else
 				{
+					this.setState({userMessage: ""});
 					this.handleForm(e);
 				}
 			})
@@ -165,6 +166,7 @@ class Signup extends Component
 				}
 				else
 				{
+					this.setState({emailMessage: ""});
 					this.handleForm(e);
 				}
 			})
@@ -255,6 +257,7 @@ class Signup extends Component
 		{
 			formData.append(key, this.state.formData[key]);
 		}
+		
 		fetch("/signup/", {
 			method: "POST",
 			body: formData
@@ -268,8 +271,7 @@ class Signup extends Component
 				}
 				else
 				{
-					this.setState(prevState => ({	...prevState, errorMessage: text}))
-					this.setState(prevState => ({	...prevState, fadein: true}))
+					this.setState(prevState => ({	...prevState, errorMessage: text, fadein: true}))
 				}
 			})
 		})
@@ -284,6 +286,7 @@ class Signup extends Component
 	{
 		const {userMessage, emailMessage, passMessage, rePassMessage, formData, errorMessage, fadein, passMatch, passScore} = this.state;
 		const {password} = formData;
+		
 		return (
 			<Container component="main" maxWidth="xs">
 				<CssBaseline/>
