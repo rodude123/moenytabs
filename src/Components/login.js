@@ -83,27 +83,31 @@ class Login extends Component
 	 */
 	checkUserEmail = e =>
 	{
-		let formData = new FormData();
-		formData.append("userEmail", e.target.value);
-		formData.append("type", "both");
-		fetch("/checkUserEmail/", {
-			method: "POST",
-			body: formData
-		}).then(res =>
+		if (e.target.value !== "")
 		{
-			res.text().then(text =>
+			let formData = new FormData();
+			formData.append("userEmail", e.target.value);
+			formData.append("type", "both");
+			fetch("/checkUserEmail/", {
+				method: "POST",
+				body: formData
+			}).then(res =>
 			{
-				if (text === "ok")
+				res.text().then(text =>
 				{
-					this.setState({userEmailMessage: "Are you sure the account exists"});
-				}
-				else
-				{
-					this.setState({userEmailMessage: ""})
-					this.handleForm(e);
-				}
+					if (text === "ok")
+					{
+						this.setState({userEmailMessage: "Are you sure the account exists"});
+					}
+					else
+					{
+						this.setState({userEmailMessage: ""})
+						this.handleForm(e);
+					}
+				})
 			})
-		})
+		}
+		
 	}
 	/**
 	 * handleDelete function
@@ -157,7 +161,6 @@ class Login extends Component
 				}
 			})
 		})
-		
 	}
 	
 	/**
