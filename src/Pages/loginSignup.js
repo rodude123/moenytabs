@@ -3,6 +3,7 @@ import Signup from "../Components/signup";
 import Login from "../Components/login";
 import {Box} from "@material-ui/core";
 import {Transition} from "react-transition-group";
+import {Redirect} from "react-router-dom";
 
 /**
  * LoginSignup class
@@ -11,7 +12,8 @@ import {Transition} from "react-transition-group";
 class LoginSignup extends Component
 {
 	state = {
-		signup: false
+		signup: false,
+		loginSignupState: ""
 	}
 	
 	/**
@@ -21,6 +23,13 @@ class LoginSignup extends Component
 	 * @param {boolean} signup whether to go to signup form or not
 	 */
 	goToSignup = signup => this.setState({signup: signup})
+	
+	/**
+	 * goToTabVerify function
+	 * Set's loginSignupState based on prop from login or signup components
+	 * @param {string} lSState - whether or not to go the tab page or verify page
+	 */
+	goToTabVerify = lSState => this.setState({loginSignupState: lSState})
 	
 	/**
 	 * Default style for login and signup transitions
@@ -76,14 +85,24 @@ class LoginSignup extends Component
 	 */
 	render()
 	{
-		const {signup} = this.state;
+		const {signup, loginSignupState} = this.state;
+		
+		if (loginSignupState === "ok")
+		{
+			return <Redirect to="/tab"/>
+		}
+		else if (loginSignupState === "not verified")
+		{
+			return <Redirect to="/verify"/>
+		}
+		
 		return (
 			<Box display="flex" justifyContent="center">
 				<Transition in={signup} timeout={1500}>
 					{state =>
 						(
 							<div style={{...this.defaultStyle, ...this.slideL[state]}}>
-								<Signup goToSignup={this.goToSignup} {...this.state}/>
+								<Signup goToSignup={this.goToSignup} goToTabVerify={this.goToTabVerify} {...this.state}/>
 							</div>
 						)
 					}
@@ -92,7 +111,7 @@ class LoginSignup extends Component
 					{state =>
 						(
 							<div style={{...this.defaultStyle, ...this.slideR[state]}}>
-								<Login goToSignup={this.goToSignup} {...this.state}/>
+								<Login goToSignup={this.goToSignup} goToTabVerify={this.goToTabVerify} {...this.state}/>
 							</div>
 						)
 					}

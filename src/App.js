@@ -4,6 +4,8 @@ import { grey, green, lime } from "@material-ui/core/colors"
 import LoginSignup from "./Pages/loginSignup";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import Main from "./Pages/main";
+import Tab from "./Pages/tab";
+import Verify from "./Pages/verify";
 
 /**
  * App class
@@ -42,6 +44,8 @@ class App extends Component
 					<Switch>
 						<Route exact path="/" component={Main}/>
 						<Route exact path="/loginsignup" component={LoginSignup}/>
+						<Route exact path="/tab" component={Tab}/>
+						<Route exact path="/verify" component={Verify}/>
 					</Switch>
 				</ThemeProvider>
 			</BrowserRouter>

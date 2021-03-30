@@ -65,7 +65,7 @@ class Signup extends Component
 		rePassMessage: "",
 		passScore: 0,
 		passMatch: false,
-		errorMessage: "Something went wrong try again later",
+		errorMessage: "",
 		fadein: false,
 	}
 	
@@ -267,7 +267,7 @@ class Signup extends Component
 			{
 				if (text === "ok")
 				{
-					console.log("User signed up")
+					this.props.goToTabVerify("not verified")
 				}
 				else
 				{

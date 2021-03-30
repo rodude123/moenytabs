@@ -15,6 +15,9 @@ import {
 } from "@material-ui/core";
 
 
+import {Redirect} from 'react-router-dom';
+
+
 /**
  * Styling for page
  */
@@ -151,13 +154,13 @@ class Login extends Component
 		{
 			res.text().then(text =>
 			{
-				if (text === "ok")
+				if (text === "ok" || text === "not verified")
 				{
-					console.log("Logged in");
+					this.props.goToTabVerify(text)
 				}
 				else
 				{
-					this.setState(prevState => ({ ...prevState, errorMessage: text, fadein: true}))
+					this.setState(prevState => ({...prevState, errorMessage: text, fadein: true}));
 				}
 			})
 		})

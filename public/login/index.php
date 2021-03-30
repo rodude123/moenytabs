@@ -8,13 +8,20 @@ $conn = dbConn(); // connect to db
 $userEmail = mysqli_escape_string($conn, $_POST["userEmail"]);
 $password = mysqli_escape_string($conn, $_POST["password"]);
 
-$sql = "SELECT password FROM MoneyTabs.users WHERE email='$userEmail' OR username='$userEmail'";
+$sql = "SELECT password, verified FROM MoneyTabs.users WHERE email='$userEmail' OR username='$userEmail'";
 
 if ($row = $conn->query($sql)->fetch_array())
 {
     if (password_verify($password, $row["password"]))
     {
-        echo "ok"; // if both email/username and password are correct login yay and nothing went wrong in the process
+        if ($row["verified"] == 1)
+        {
+            echo "ok"; // if both email/username and password are correct login yay and nothing went wrong in the process
+        }
+        else
+        {
+            echo "not verified";
+        }
     }
     else
     {
