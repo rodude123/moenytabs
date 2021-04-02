@@ -13,24 +13,30 @@ $sql = "SELECT userCode FROM MoneyTabs.users WHERE email='$userEmail' or usernam
 
 if ($row = $conn->query($sql)->fetch_array())
 {
+    // grab userCode from db
     if ($verifyCode == $row["userCode"])
     {
+        //if they match
         $updateSql = "UPDATE MoneyTabs.users SET verified=1 WHERE email='$userEmail'";
         if ($conn->query($updateSql) === TRUE)
         {
+            //user now verified
             echo "ok";
         }
         else
         {
+            //something went wrong in the query
             echo "Something went wrong please try again.";
         }
     }
     else
     {
+        //if they don't match
         echo "wrong code";
     }
 }
 else
 {
+    //something went wrong in the query
     echo "Verification code does not exist or something went wrong.";
 }
