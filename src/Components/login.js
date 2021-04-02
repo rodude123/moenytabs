@@ -2,21 +2,19 @@ import React, {Component} from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
 	Avatar,
-	Button, Checkbox,
+	Button,
+	Checkbox,
 	Chip,
 	Container,
 	CssBaseline,
-	Fade, FormControlLabel,
+	Fade,
+	FormControlLabel,
 	Grid,
 	Link,
 	TextField,
 	Typography,
 	withStyles
 } from "@material-ui/core";
-
-
-import {Redirect} from 'react-router-dom';
-
 
 /**
  * Styling for page
@@ -39,10 +37,14 @@ const useStyles = theme => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	chip: {
+		backgroundColor: theme.palette.type === 'dark' ? theme.palette.error.dark : theme.palette.error.light,
+	}
 });
 
 /**
  * Login class
+ *
  * Login component used in the loginSignup.js to show signup form.
  */
 class Login extends Component
@@ -119,7 +121,7 @@ class Login extends Component
 	 */
 	handleDelete = () =>
 	{
-		this.setState(prevState => ({	...prevState, fadein: false}))
+		this.setState(prevState => ({...prevState, fadein: false}))
 	}
 	
 	/**
@@ -129,7 +131,7 @@ class Login extends Component
 	 */
 	handleFade = () =>
 	{
-		this.setState(prevState => ({	...prevState, errorMessage: ""}))
+		this.setState(prevState => ({...prevState, errorMessage: ""}))
 	}
 	
 	/**
@@ -193,12 +195,12 @@ class Login extends Component
 						           onChange={this.handleForm}/>
 						<FormControlLabel control={<Checkbox value="remember" color="primary"/>} label="Remember me"/>
 						<Button type="submit" fullWidth variant="contained" color="primary"
-								disabled={userEmailMessage !== ""} className={this.classes.submit}>
+						        disabled={userEmailMessage !== ""} className={this.classes.submit}>
 							Sign In
 						</Button>
 						<Grid container justify="center">
 							<Fade in={fadein} mountOnEnter={true} unmountOnExit={true} onExited={this.handleFade}>
-								<Chip className={this.classes.chip} label={errorMessage} onDelete={this.handleDelete} />
+								<Chip className={this.classes.chip} label={errorMessage} onDelete={this.handleDelete}/>
 							</Fade>
 						</Grid>
 						
@@ -209,7 +211,10 @@ class Login extends Component
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link href="#" variant="body2" onClick={() => {this.props.goToSignup(!this.props.signup)}}>
+								<Link href="#" variant="body2" onClick={() =>
+								{
+									this.props.goToSignup(!this.props.signup)
+								}}>
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>

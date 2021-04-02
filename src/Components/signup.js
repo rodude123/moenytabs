@@ -229,7 +229,7 @@ class Signup extends Component
 	 */
 	handleDelete = () =>
 	{
-		this.setState(prevState => ({	...prevState, fadein: false}))
+		this.setState(prevState => ({...prevState, fadein: false}))
 	}
 	
 	/**
@@ -239,7 +239,7 @@ class Signup extends Component
 	 */
 	handleFade = () =>
 	{
-		this.setState(prevState => ({	...prevState, errorMessage: ""}))
+		this.setState(prevState => ({...prevState, errorMessage: ""}))
 	}
 	
 	/**
@@ -271,7 +271,7 @@ class Signup extends Component
 				}
 				else
 				{
-					this.setState(prevState => ({	...prevState, errorMessage: text, fadein: true}))
+					this.setState(prevState => ({...prevState, errorMessage: text, fadein: true}))
 				}
 			})
 		})
@@ -284,7 +284,17 @@ class Signup extends Component
 	 */
 	render()
 	{
-		const {userMessage, emailMessage, passMessage, rePassMessage, formData, errorMessage, fadein, passMatch, passScore} = this.state;
+		const {
+			userMessage,
+			emailMessage,
+			passMessage,
+			rePassMessage,
+			formData,
+			errorMessage,
+			fadein,
+			passMatch,
+			passScore
+		} = this.state;
 		const {password} = formData;
 		
 		return (
@@ -312,7 +322,8 @@ class Signup extends Component
 							<Grid item xs={12}>
 								<TextField error={userMessage !== ""} helperText={userMessage} variant="outlined"
 								           required fullWidth name="username" label="Username"
-								           id="username" autoComplete="username" onChange={this.checkUsername} inputProps={{maxLength: 100}}/>
+								           id="username" autoComplete="username" onChange={this.checkUsername}
+								           inputProps={{maxLength: 100}}/>
 							</Grid>
 							<Grid item xs={12}>
 								<TextField error={emailMessage !== ""} helperText={emailMessage} variant="outlined"
@@ -343,7 +354,7 @@ class Signup extends Component
 						</Button>
 						<Grid container justify="center">
 							<Fade in={fadein} mountOnEnter={true} unmountOnExit={true} onExited={this.handleFade}>
-								<Chip className={this.classes.chip} label={errorMessage} onDelete={this.handleDelete} />
+								<Chip className={this.classes.chip} label={errorMessage} onDelete={this.handleDelete}/>
 							</Fade>
 						</Grid>
 						<Grid container justify="flex-end">

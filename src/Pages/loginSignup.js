@@ -7,6 +7,7 @@ import {Redirect} from "react-router-dom";
 
 /**
  * LoginSignup class
+ *
  * Used for transitioning between the login and signup forms
  */
 class LoginSignup extends Component
@@ -15,22 +16,6 @@ class LoginSignup extends Component
 		signup: false,
 		loginSignupState: ""
 	}
-	
-	/**
-	 * goToSignup function
-	 *
-	 * Set's signup to boolean based on prop from login or signup components
-	 * @param {boolean} signup whether to go to signup form or not
-	 */
-	goToSignup = signup => this.setState({signup: signup})
-	
-	/**
-	 * goToTabVerify function
-	 * Set's loginSignupState based on prop from login or signup components
-	 * @param {string} lSState - whether or not to go the tab page or verify page
-	 */
-	goToTabVerify = lSState => this.setState({loginSignupState: lSState})
-	
 	/**
 	 * Default style for login and signup transitions
 	 * @type {object}
@@ -39,7 +24,6 @@ class LoginSignup extends Component
 		display: "block",
 		transition: "all 1500ms cubic-bezier(0, 0, 0.2, 1) 0ms",
 	}
-	
 	/**
 	 * Slide left styles
 	 * @type {object}
@@ -80,6 +64,21 @@ class LoginSignup extends Component
 	}
 	
 	/**
+	 * goToSignup function
+	 *
+	 * Set's signup to boolean based on prop from login or signup components
+	 * @param {boolean} signup whether to go to signup form or not
+	 */
+	goToSignup = signup => this.setState({signup: signup})
+
+	/**
+	 * goToTabVerify function
+	 * Set's loginSignupState based on prop from login or signup components
+	 * @param {string} lSState - whether or not to go the tab page or verify page
+	 */
+	goToTabVerify = lSState => this.setState({loginSignupState: lSState})
+	
+	/**
 	 * render function to render the jsx
 	 * @returns {JSX.Element}
 	 */
@@ -102,7 +101,8 @@ class LoginSignup extends Component
 					{state =>
 						(
 							<div style={{...this.defaultStyle, ...this.slideL[state]}}>
-								<Signup goToSignup={this.goToSignup} goToTabVerify={this.goToTabVerify} {...this.state}/>
+								<Signup goToSignup={this.goToSignup}
+								        goToTabVerify={this.goToTabVerify} {...this.state}/>
 							</div>
 						)
 					}

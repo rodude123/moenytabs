@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
-import { grey, green, lime } from "@material-ui/core/colors"
+import {createMuiTheme, ThemeProvider} from '@material-ui/core';
+import {green, grey, lime} from "@material-ui/core/colors"
 import LoginSignup from "./Pages/loginSignup";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Main from "./Pages/main";
 import Tab from "./Pages/tab";
 import Verify from "./Pages/verify";
@@ -32,6 +32,7 @@ class App extends Component
 			},
 		},
 	});
+	
 	/**
 	 * render method to render the jsx
 	 * @returns {JSX.Element}
