@@ -22,6 +22,7 @@ $sql = "INSERT INTO MoneyTabs.users (firstName, lastName, username, email, passw
 if ($conn->query($sql) === TRUE)
 {
     $_SESSION["userEmail"] = $username;
+    $_SESSION["verified"] = 0;
 
     //send email to user
     $subject = "Verify Email";

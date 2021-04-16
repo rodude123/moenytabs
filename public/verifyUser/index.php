@@ -17,7 +17,7 @@ if ($row = $conn->query($sql)->fetch_array())
     if ($verifyCode == $row["userCode"])
     {
         //if they match
-        $updateSql = "UPDATE MoneyTabs.users SET verified=1 WHERE email='$userEmail'";
+        $updateSql = "UPDATE MoneyTabs.users SET verified=1 WHERE email='$userEmail' or username='$userEmail'";
         if ($conn->query($updateSql) === TRUE)
         {
             //user now verified

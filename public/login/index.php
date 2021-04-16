@@ -1,5 +1,5 @@
 <?php
-header("Content-type: text/text; charset=UTF-8"); // set header content-type to text for easy readability when using fetch (AJAX)
+header("Content-type: text/plain; charset=UTF-8"); // set header content-type to text for easy readability when using fetch (AJAX)
 session_start();
 
 include "../dbConn.php";
@@ -17,6 +17,7 @@ if ($row = $conn->query($sql)->fetch_array())
     if (password_verify($password, $row["password"]))
     {
         $_SESSION["userEmail"] = $userEmail;
+        $_SESSION["verified"] = $row["verified"];
         if ($row["verified"] == 1)
         {
             echo "ok"; // if both email/username and password are correct login yay and nothing went wrong in the process

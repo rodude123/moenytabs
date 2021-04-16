@@ -5,7 +5,14 @@ session_start();
 if (isset($_SESSION["userEmail"]))
 {
     //user has signed in/signed up before
-    echo "ok";
+    if ($_SESSION["verified"] == 1)
+    {
+        echo "ok";
+    }
+    else
+    {
+        echo "not verified";
+    }
 }
 else
 {

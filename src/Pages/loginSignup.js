@@ -64,13 +64,29 @@ class LoginSignup extends Component
 	}
 	
 	/**
+	 * componentDidMount function
+	 * <br>
+	 * Checks if user status on backend e.g. if verified, logged in etc. when the component is added to the dom
+	 */
+	componentDidMount = () =>
+	{
+		fetch("/checkUser/").then(res =>
+		{
+			res.text().then(text =>
+			{
+				this.setState({loginSignupState: text})
+			})
+		});
+	};
+	
+	/**
 	 * goToSignup function
 	 *
 	 * Set's signup to boolean based on prop from login or signup components
 	 * @param {boolean} signup whether to go to signup form or not
 	 */
 	goToSignup = signup => this.setState({signup: signup})
-
+	
 	/**
 	 * goToTabVerify function
 	 * Set's loginSignupState based on prop from login or signup components
