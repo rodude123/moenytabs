@@ -1,0 +1,15 @@
+{
+    "name": "rodude123/moneytabs",
+    "description": "MoneyTabs App",
+    "type": "project",
+    "license": "GPL3",
+    "authors": [
+        {
+            "name": "rodude123",
+            "email": "rodude123@gmail.com"
+        }
+    ],
+    "require": {
+      "ext-mysqli": "*"
+    }
+}
