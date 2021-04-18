@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {CssBaseline} from "@material-ui/core";
 
 class Tab extends Component
 {
@@ -6,6 +7,7 @@ class Tab extends Component
 	{
 		return (
 			<div>
+				<CssBaseline/>
 				This is the tab.
 			</div>
 		);
