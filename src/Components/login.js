@@ -93,7 +93,7 @@ class Login extends Component
 			let formData = new FormData();
 			formData.append("userEmail", e.target.value);
 			formData.append("type", "both");
-			fetch("/checkUserEmail/", {
+			fetch("/checkUser/", {
 				method: "POST",
 				body: formData
 			}).then(res =>
