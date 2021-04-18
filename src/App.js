@@ -3,6 +3,7 @@ import {createMuiTheme, ThemeProvider} from '@material-ui/core';
 import {green, grey, lime} from "@material-ui/core/colors"
 import LoginSignup from "./Pages/loginSignup";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {SnackbarProvider} from "notistack";
 import Main from "./Pages/main";
 import Tab from "./Pages/tab";
 import Verify from "./Pages/verify";
@@ -40,16 +41,18 @@ class App extends Component
 	render()
 	{
 		return (
-			<BrowserRouter>
-				<ThemeProvider theme={this.theme}>
-					<Switch>
-						<Route exact path="/" component={Main}/>
-						<Route exact path="/loginsignup" component={LoginSignup}/>
-						<Route exact path="/tab" component={Tab}/>
-						<Route exact path="/verify" component={Verify}/>
-					</Switch>
-				</ThemeProvider>
-			</BrowserRouter>
+			<ThemeProvider theme={this.theme}>
+				<SnackbarProvider maxSnack={3}>
+					<BrowserRouter>
+						<Switch>
+							<Route exact path="/" component={Main}/>
+							<Route exact path="/loginsignup" component={LoginSignup}/>
+							<Route exact path="/tab" component={Tab}/>
+							<Route exact path="/verify" component={Verify}/>
+						</Switch>
+					</BrowserRouter>
+				</SnackbarProvider>
+			</ThemeProvider>
 		)
 	}
 }

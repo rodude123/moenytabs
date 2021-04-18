@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CloseIcon from "@material-ui/icons/Close";
 import MuiAlert from '@material-ui/lab/Alert';
 import {Redirect} from "react-router-dom";
+import {withSnackbar} from "notistack";
 
 /**
  * Styling for page
@@ -36,6 +37,9 @@ const useStyles = theme => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	snackButton: {
+		color: theme.palette.secondary.main,
+	}
 })
 
 /**
@@ -51,7 +55,7 @@ class Verify extends Component
 		userCodeMessage: "",
 		userCode: "",
 		userStatus: "",
-		openSnackbar: false
+		openSnackbar: false,
 	}
 	
 	/**
@@ -86,26 +90,28 @@ class Verify extends Component
 	}
 	
 	/**
-	 * handleClose function
-	 * <br>
-	 * Closes the snackbar
-	 */
-	handleClose = () =>
-	{
-		this.setState({openSnackbar: false})
-	}
-	
-	/**
 	 * resendCode function
-	 *
+	 * <br>
 	 * Sends a request to the server to resend the verification code to the user
-	 * @param e {Event} - grab elements details
 	 */
-	resendCode = e =>
+	resendCode = () =>
 	{
-		e.preventDefault();
-		
-		fetch("/resendVerifyCode/")
+		fetch("/verifyUser/").then(res =>
+		{
+			res.text().then(text =>
+			{
+				if (text === "ok")
+				{
+					this.props.enqueueSnackbar("Another verification code sent to your email", {variant: "success"});
+				}
+				else
+				{
+					this.props.enqueueSnackbar(text, {variant: "error"})
+				}
+				
+				this.setState({userCodeMessage: ""});
+			});
+		});
 	}
 	
 	/**
@@ -139,8 +145,15 @@ class Verify extends Component
 						...prevState,
 						userCodeMessage: text,
 						userStatus: "not verified",
-						openSnackbar: true
 					}));
+					this.props.enqueueSnackbar(text, {
+						variant: "error",
+						action: (
+							<Button className={this.classes.snackButton} size="small" onClick={this.resendCode}>
+								Resend Code
+							</Button>
+						)
+					})
 				}
 			})
 		})
@@ -148,7 +161,8 @@ class Verify extends Component
 	
 	render()
 	{
-		const {userCodeMessage, userStatus, openSnackbar} = this.state;
+		const {userCodeMessage, userStatus} = this.state;
+		
 		if (userStatus === "ok")
 		{
 			return <Redirect to="/tab"/>
@@ -179,28 +193,9 @@ class Verify extends Component
 						</Button>
 					</form>
 				</div>
-				
-				<Snackbar
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'center',
-					}}
-					open={openSnackbar}
-					autoHideDuration={6000}
-					onClose={this.handleClose}>
-					<MuiAlert severity="error">
-						Wrong Code
-						<Button color="secondary" size="small" onClick={this.resendCode}>
-							Resend Code
-						</Button>
-						<IconButton size="small" aria-label="close" color="inherit" onClick={this.handleClose}>
-							<CloseIcon fontSize="small"/>
-						</IconButton>
-					</MuiAlert>
-				</Snackbar>
 			</Container>
 		);
 	}
 }
 
-export default withStyles(useStyles)(Verify);
+export default withStyles(useStyles)(withSnackbar(Verify));
