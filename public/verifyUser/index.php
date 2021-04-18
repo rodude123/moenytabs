@@ -6,7 +6,13 @@ include "../utils.php";
 
 $conn = dbConn(); // connect to db
 
-function verifyUser($conn) : string
+/**
+ * verifyUserEmail function
+ * Checks to see if the user code that was typed is correct i.e. the same as the on in the database
+ * @param mysqli $conn mysqli connection
+ * @return string return appropriate message
+ */
+function verifyUser(mysqli $conn) : string
 {
 
     $verifyCode = mysqli_real_escape_string($conn, $_POST["verifyCode"]);
@@ -45,7 +51,13 @@ function verifyUser($conn) : string
     }
 }
 
-function resendVerifyCode($conn) : string
+/**
+ * resendVerifyCode function
+ * Generates a new code, updates the database with the new code and then sends an email to user with the new code
+ * @param mysqli $conn mysqli connection
+ * @return string return appropriate string
+ */
+function resendVerifyCode(mysqli $conn) : string
 {
     $userCode = generateUserCode(); // generates new user code and stores in a variable
     $userEmail = $_SESSION["userEmail"];
