@@ -121,7 +121,7 @@ class Signup extends Component
 		let formData = new FormData();
 		formData.append("userEmail", e.target.value);
 		formData.append("type", "username");
-		fetch("/checkUserEmail/", {
+		fetch("/checkUser/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
@@ -153,7 +153,7 @@ class Signup extends Component
 		let formData = new FormData();
 		formData.append("userEmail", e.target.value);
 		formData.append("type", "email");
-		fetch("/checkUserEmail/", {
+		fetch("/checkUser/", {
 			method: "POST",
 			body: formData
 		}).then(res =>
