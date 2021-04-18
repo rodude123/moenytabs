@@ -23,7 +23,7 @@ Currently not deployed but can be run locally.
 2. Install Node and npm
 3. Clone repo `git clone https://github.com/rodude123/moenytabs.git`
 4. Open cmd/terminal window at project root and type `npm build`
-5. move contents of repo to webserver root e.g. `/var/www` or `/srv/http` or `C:\wamp64\www` or `C:\XAMPP\www` etc.
+5. move contents of build folder to webserver root e.g. `/var/www` or `/srv/http` or `C:\wamp64\www` or `C:\XAMPP\www` etc.
 6. Go to `localhost` in your browser and the app is ready to use
 
 Right now there is nothing much the app can do but it's there.
