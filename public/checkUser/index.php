@@ -1,4 +1,7 @@
 <?php
+//////////////////////////
+///      checkUser     ///
+//////////////////////////
 header("Content-type: text/plain; charset=UTF-8"); // set header content-type to text for easy readability when using fetch (AJAX)
 include "../dbConn.php";
 
@@ -13,7 +16,7 @@ $conn = dbConn(); // connect to db
 function checkUserEmail(mysqli $conn): string|bool
 {
 
-    $userEmail = mysqli_escape_string($conn, $_POST["userEmail"]); //grab email and escape string for security reasons
+    $userEmail = mysqli_real_escape_string($conn, $_POST["userEmail"]); //grab email and escape string for security reasons
     $type = $_POST["type"];
     $sql = "SELECT firstName FROM MoneyTabs.users WHERE email='$userEmail' OR username='$userEmail'"; // sql query to run
 

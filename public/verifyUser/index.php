@@ -1,4 +1,7 @@
 <?php
+//////////////////////////
+///     verifyUser     ///
+//////////////////////////
 header("Content-type: text/plain; charset=UTF-8"); // set header content-type to text for easy readability when using fetch (AJAX)
 
 include "../dbConn.php";
