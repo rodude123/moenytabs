@@ -1,6 +1,8 @@
 <?php
+//////////////////////////
+///       Signup       ///
+//////////////////////////
 header("Content-type: text/plain; charset=UTF-8"); // set header content-type to text for easy readability when using fetch (AJAX)
-session_start();
 
 include "../dbConn.php";
 include "../utils.php";
@@ -8,18 +10,19 @@ include "../utils.php";
 $conn = dbConn(); // connect to db
 
 // grab form elements that have been posted and escapes for security reasons.
-$firstName = mysqli_escape_string($conn, $_POST["firstName"]);
-$lastName = mysqli_escape_string($conn, $_POST["lastName"]);
-$username = mysqli_escape_string($conn, $_POST["username"]);
-$email = mysqli_escape_string($conn, $_POST["email"]);
-$password = password_hash(mysqli_escape_string($conn, $_POST["password"]), PASSWORD_DEFAULT); // password_hashes the password for security reasons
+$firstName = mysqli_real_escape_string($conn, $_POST["firstName"]);
+$lastName = mysqli_real_escape_string($conn, $_POST["lastName"]);
+$username = mysqli_real_escape_string($conn, $_POST["username"]);
+$email = mysqli_real_escape_string($conn, $_POST["email"]);
+$password = password_hash(mysqli_real_escape_string($conn, $_POST["password"]), PASSWORD_DEFAULT); // password_hashes the password for security reasons
 
 $userCode = generateUserCode(); // generates user code and stores in a variable
+$verified = 0;
 
-$sql = "INSERT INTO MoneyTabs.users (firstName, lastName, username, email, password, verified, userCode) 
-        VALUES('$firstName', '$lastName', '$username', '$email', '$password', 0, '$userCode')"; // sql query to run
+$query = $conn->prepare("INSERT INTO MoneyTabs.users (firstName, lastName, username, email, password, verified, userCode) VALUES(?, ?, ?, ?, ?, ?, ?)");
+$query->bind_param("sssssis", $firstName, $lastName, $username, $email, $password, $verified, $userCode);
 
-if ($conn->query($sql) === TRUE)
+if ($query->execute())
 {
     $_SESSION["userEmail"] = $username;
     $_SESSION["verified"] = 0;
