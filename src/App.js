@@ -7,6 +7,7 @@ import {SnackbarProvider} from "notistack";
 import Main from "./Pages/main";
 import Tab from "./Pages/tab";
 import Verify from "./Pages/verify";
+import ResetPass from "./Pages/resetPass";
 
 /**
  * App class
@@ -49,6 +50,7 @@ class App extends Component
 							<Route exact path="/loginsignup" component={LoginSignup}/>
 							<Route exact path="/tab" component={Tab}/>
 							<Route exact path="/verify" component={Verify}/>
+							<Route exact path="/resetPass" component={ResetPass}/>
 						</Switch>
 					</BrowserRouter>
 				</SnackbarProvider>

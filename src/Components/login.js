@@ -112,6 +112,10 @@ class Login extends Component
 				})
 			})
 		}
+		else
+		{
+			this.setState({userEmailMessage: ""})
+		}
 		
 	}
 	/**
@@ -206,7 +210,7 @@ class Login extends Component
 						
 						<Grid container>
 							<Grid item xs>
-								<Link href="#" variant="body2">
+								<Link href="/resetPass" variant="body2">
 									Forgot password?
 								</Link>
 							</Grid>

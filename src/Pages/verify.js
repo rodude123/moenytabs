@@ -4,15 +4,11 @@ import {
 	Button,
 	Container,
 	CssBaseline,
-	IconButton,
-	Snackbar,
 	TextField,
 	Typography,
 	withStyles
 } from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import CloseIcon from "@material-ui/icons/Close";
-import MuiAlert from '@material-ui/lab/Alert';
 import {Redirect} from "react-router-dom";
 import {withSnackbar} from "notistack";
 
@@ -61,7 +57,7 @@ class Verify extends Component
 	/**
 	 * componentDidMount function
 	 * <br>
-	 * Checks if user status on backend e.g. if verified, logged in etc. when the component is added to the dom
+	 * Checks user status on backend e.g. if verified, logged in etc. when the component is added to the dom
 	 */
 	componentDidMount = () =>
 	{
